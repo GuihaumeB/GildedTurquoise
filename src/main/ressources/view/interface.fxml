@@ -15,7 +15,7 @@
           stylesheets = "styles.css"
           xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
     <Label GridPane.rowIndex="0" GridPane.columnIndex="0" text="Inventory:"/>
-    <TableView fx:id="tableView1" prefHeight="400" prefWidth="500" GridPane.columnIndex="0" GridPane.rowIndex="1">
+    <TableView fx:id="tableView1" GridPane.columnIndex="0" GridPane.rowIndex="1">
         <columns>
             <TableColumn fx:id="itemName" text = "Item Name"/>
             <TableColumn fx:id="itemSellIn" text = "Item SellIn"/>
@@ -23,8 +23,8 @@
         </columns>
     </TableView>
 
-    <Button text="Update" onAction="#updateInventory"/>
-    <HBox spacing="10" GridPane.columnIndex = "0" GridPane.RowIndex = "2">
+    <Button text="Update" onAction="#updateInventory" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+    <HBox spacing="10" GridPane.columnIndex = "0" GridPane.RowIndex = "3">
         <ComboBox fx:id="comboBox1">
             <items>
                 <FXCollections fx:factory="observableArrayList"/>
