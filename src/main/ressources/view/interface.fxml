@@ -3,13 +3,35 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.collections.FXCollections?>
 
-<?import javafx.scene.control.ListCell?>
 
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
 <GridPane fx:controller="edu.insightr.gildedrose.UIController"
           stylesheets = "styles.css"
           xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
-    <Button text="test" onAction="#DisplayInventory"/>
-    <Label GridPane.rowIndex="1" fx:id="label1"/>
-    <ListCell GridPane.rowIndex="1" fx:id="list1"/>
+    <Label GridPane.rowIndex="0" GridPane.columnIndex="0" text="Inventory:"/>
+    <TableView fx:id="tableView1" prefHeight="400" prefWidth="500" GridPane.columnIndex="0" GridPane.rowIndex="1">
+        <columns>
+            <TableColumn fx:id="itemName" text = "Item Name"/>
+            <TableColumn fx:id="itemSellIn" text = "Item SellIn"/>
+            <TableColumn fx:id="itemQuality" text = "Item Quality"/>
+        </columns>
+    </TableView>
+
+    <Button text="Update" onAction="#updateInventory"/>
+    <HBox spacing="10" GridPane.columnIndex = "0" GridPane.RowIndex = "2">
+        <ComboBox fx:id="comboBox1">
+            <items>
+                <FXCollections fx:factory="observableArrayList"/>
+            </items>
+        </ComboBox>
+        <TextField fx:id="SellIn" prefWidth="50"/>
+        <TextField fx:id="Quality" prefWidth="50"/>
+        <Button text="Add" onAction="#add"/>
+    </HBox>
 </GridPane>

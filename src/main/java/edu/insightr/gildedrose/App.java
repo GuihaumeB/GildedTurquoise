@@ -13,7 +13,7 @@ public class App extends Application {
             Parent root = FXMLLoader.load(getClass().getResource("/view/interface.fxml"));
             Scene scene = new Scene(root, 300, 275);
             scene.getStylesheets().add(getClass().getResource("/view/styles.css").toExternalForm());
-            primaryStage.setTitle("Interface");
+            primaryStage.setTitle("Gilded Rose UI");
             primaryStage.setScene(scene);
             primaryStage.show();
         }catch(Exception e){
