@@ -6,10 +6,9 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.collections.FXCollections?>
 
 
-<?import javafx.scene.control.ComboBox?>
+
 <?import javafx.scene.control.TextField?>
 <GridPane fx:controller="edu.insightr.gildedrose.UIController"
           stylesheets = "styles.css"
@@ -25,11 +24,7 @@
 
     <Button text="Update" onAction="#updateInventory" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
     <HBox spacing="10" GridPane.columnIndex = "0" GridPane.RowIndex = "3">
-        <ComboBox fx:id="comboBox1">
-            <items>
-                <FXCollections fx:factory="observableArrayList"/>
-            </items>
-        </ComboBox>
+        <TextField fx:id="Name" prefWidth="150"/>
         <TextField fx:id="SellIn" prefWidth="50"/>
         <TextField fx:id="Quality" prefWidth="50"/>
         <Button text="Add" onAction="#add"/>

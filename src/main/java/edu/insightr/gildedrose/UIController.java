@@ -28,7 +28,7 @@ public class UIController implements Initializable {
     @FXML
     private TableColumn<Item, String> itemQuality;
     @FXML
-    private ComboBox comboBox1;
+    private TextField Name;
     @FXML
     private TextField SellIn;
     @FXML
@@ -50,8 +50,6 @@ public class UIController implements Initializable {
         inv.add("Backstage passes to a TAFKAL80ETC concert");
         inv.add("Conjured Mana Cake");
 
-        ObservableList<String> names = FXCollections.observableArrayList(inv);
-        comboBox1.setItems(names);
     }
 
     @FXML
@@ -66,7 +64,7 @@ public class UIController implements Initializable {
         int sellin;
         int qual;
 
-        name = comboBox1.getValue().toString();
+        name = Name.getText();
         sellin = Integer.parseInt(SellIn.getText());
         qual = Integer.parseInt(Quality.getText());
 
