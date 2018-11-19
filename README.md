@@ -1,9 +1,15 @@
 #Team members:
+
 BUEVOZ Guihaume
+
 BOS Maxime
+
 BERTE Nicola
+
 COSTA DOS SANTOS David
+
 LABRANQUE Nikolas
+
 
 #GildedRoseJavaKata
 The Gilded Rose Kata in Java
