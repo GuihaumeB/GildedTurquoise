@@ -104,11 +104,12 @@ public class UIController implements Initializable {
 
         ObservableList<PieChart.Data> pieChartData =
                 FXCollections.observableArrayList(
-                        new PieChart.Data("Grapefruit", 13),
-                        new PieChart.Data("Oranges", 25),
-                        new PieChart.Data("Plums", 10),
-                        new PieChart.Data("Pears", 22),
-                        new PieChart.Data("Apples", 30));
+                        new PieChart.Data("Vest", 1),
+                        new PieChart.Data("Aged Brie", 1),
+                        new PieChart.Data("Elixir", 2),
+                        new PieChart.Data("Sulfuras", 1),
+                        new PieChart.Data("Backstage Pass", 1),
+                        new PieChart.Data("Conjured", 2));
         final PieChart chart = new PieChart(pieChartData);
         chart.setTitle("Imported Fruits");
 
