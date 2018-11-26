@@ -11,9 +11,11 @@ public class App extends Application {
     public void start(Stage primaryStage) throws Exception {
         try{
             Parent root = FXMLLoader.load(getClass().getResource("/view/interface.fxml"));
+
             Scene scene = new Scene(root, 500, 500);
             scene.getStylesheets().add(getClass().getResource("/view/styles.css").toExternalForm());
             primaryStage.setTitle("Gilded Rose UI");
+
             primaryStage.setScene(scene);
             primaryStage.show();
         }catch(Exception e){

@@ -5,11 +5,16 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -84,6 +89,39 @@ public class UIController implements Initializable {
         tableView1.getItems().setAll(inventory.getItems());
         tableView1.getItems();
         tableView1.refresh();
+    }
+
+
+    public void displayInventory(ActionEvent actionEvent) {
+        StackPane secondaryLayout = new StackPane();
+
+        Stage stage2 = new Stage();
+        Scene scene2 = new Scene(new Group());
+        stage2.setWidth(500);
+        stage2.setHeight(500);
+        scene2.getStylesheets().add(getClass().getResource("/view/styles.css").toExternalForm());
+        stage2.setTitle("Gilded Rose UI");
+
+        ObservableList<PieChart.Data> pieChartData =
+                FXCollections.observableArrayList(
+                        new PieChart.Data("Grapefruit", 13),
+                        new PieChart.Data("Oranges", 25),
+                        new PieChart.Data("Plums", 10),
+                        new PieChart.Data("Pears", 22),
+                        new PieChart.Data("Apples", 30));
+        final PieChart chart = new PieChart(pieChartData);
+        chart.setTitle("Imported Fruits");
+
+        ((Group) scene2.getRoot()).getChildren().add(chart);
+        //secondaryLayout.getChildren().add(chart);
+
+        // Specifies the modality for new window.
+        stage2.initModality(Modality.WINDOW_MODAL);
+
+        stage2.setTitle("GUI");
+        stage2.setScene(scene2);
+
+        stage2.show();
     }
 }
 
