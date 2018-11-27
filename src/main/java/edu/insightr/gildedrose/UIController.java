@@ -92,7 +92,6 @@ public class UIController implements Initializable {
 
 
     public void displayInventory(ActionEvent actionEvent) {
-        StackPane secondaryLayout = new StackPane();
 
         Stage stage2 = new Stage();
         Scene scene2 = new Scene(new Group());
