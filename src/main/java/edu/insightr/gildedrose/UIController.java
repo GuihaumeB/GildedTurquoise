@@ -24,7 +24,10 @@ import javafx.scene.chart.XYChart;
 
 
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -40,17 +43,22 @@ public class UIController implements Initializable {
     @FXML
     private TableColumn<Item, String> itemQuality;
     @FXML
+    private TableColumn<Item, String> itemDate;
+    @FXML
     private TextField Name;
     @FXML
     private TextField SellIn;
     @FXML
     private TextField Quality;
+    @FXML
+    private TextField Date;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         itemName.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
         itemSellIn.setCellValueFactory(new PropertyValueFactory<Item, String>("sellIn"));
         itemQuality.setCellValueFactory(new PropertyValueFactory<Item, String>("quality"));
+        itemQuality.setCellValueFactory(new PropertyValueFactory<Item, String>("date"));
 
         tableView1.getItems().setAll(inventory.getItems());
 
@@ -74,12 +82,18 @@ public class UIController implements Initializable {
         String name;
         int sellin;
         int qual;
+        Date date;
 
         name = Name.getText();
         sellin = Integer.parseInt(SellIn.getText());
         qual = Integer.parseInt(Quality.getText());
+        SimpleDateFormat textFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try{
+        date = new SimpleDateFormat("yyyy-mm-dd").parse(Date.toString());
+            Item newItem = new Item(name, sellin, qual, date);
 
-        Item newItem = new Item(name, sellin, qual);
+
+
 
         Item[] items = new Item[this.inventory.getItems().length+1];
 
@@ -90,17 +104,26 @@ public class UIController implements Initializable {
 
         items[this.inventory.getItems().length] = newItem;
 
+
         inventory = new Inventory(items);
 
         tableView1.getItems().setAll(inventory.getItems());
         tableView1.getItems();
         tableView1.refresh();
+        }
+        catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
+
+
 
 
 
     public void SellInBarChart(ActionEvent actionEvent) {
         Stage stage = new Stage();
+        Stage stage1 = new Stage();
+
         Scene scene = new Scene(new Group());
         stage.setWidth(500);
         stage.setHeight(500);
@@ -109,11 +132,25 @@ public class UIController implements Initializable {
 
         final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
+
+        final CategoryAxis xAxis1 = new CategoryAxis();
+        final NumberAxis yAxis1 = new NumberAxis();
+
         final BarChart<String, Number> bc =
                 new BarChart<String, Number>(xAxis, yAxis);
+
+        final BarChart<String, Number> bc1 =
+                new BarChart<String, Number>(xAxis1, yAxis1);
+
         bc.setTitle("Historical SellIn");
+
+        bc1.setTitle("Historical Date");
+
         xAxis.setLabel("sellIn");
         yAxis.setLabel("number of items");
+
+        xAxis1.setLabel("Date");
+        yAxis1.setLabel("number of items");
 
         Item[] it = inventory.getItems();
 
@@ -126,17 +163,21 @@ public class UIController implements Initializable {
         series1.getData().add(new XYChart.Data(Integer.toString(it[4].getSellIn()), 1));
 
         XYChart.Series series2 = new XYChart.Series();
-        series2.setName("Date Sellin");
-        series2.getData().add(new XYChart.Data(Integer.toString(it[0].getSellIn()), 1));
-        series2.getData().add(new XYChart.Data(Integer.toString(it[1].getSellIn()), 1));
-        series2.getData().add(new XYChart.Data(Integer.toString(it[2].getSellIn()), 1));
-        series2.getData().add(new XYChart.Data(Integer.toString(it[3].getSellIn()), 1));
-        series2.getData().add(new XYChart.Data(Integer.toString(it[4].getSellIn()), 1));
+        series2.setName("Date");
+        series2.getData().add(new XYChart.Data(it[0].getDate().toString(), 1));
+        series2.getData().add(new XYChart.Data(it[1].getDate().toString(), 1));
+        series2.getData().add(new XYChart.Data(it[2].getDate().toString(), 1));
+        series2.getData().add(new XYChart.Data(it[3].getDate().toString(), 1));
+        series2.getData().add(new XYChart.Data(it[4].getDate().toString(), 1));
 
         Scene scene2 = new Scene(bc, 800, 600);
-        bc.getData().addAll(series1, series2);
+        Scene scene3 = new Scene(bc1,800,600);
+        bc.getData().addAll(series1);
+        bc1.getData().addAll(series2);
         stage.setScene(scene2);
+        stage1.setScene(scene3);
         stage.show();
+        stage1.show();
     }
 
     public void displayInventory(ActionEvent actionEvent) {

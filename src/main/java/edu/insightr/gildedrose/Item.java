@@ -1,17 +1,21 @@
 package edu.insightr.gildedrose;
 
+import java.util.Date;
+
 public class Item {
 
     private String name;
     private int sellIn;
+    private Date date;
 
     private int quality;
 
-    public Item(String name, int sellIn, int quality) {
+    public Item(String name, int sellIn, int quality, Date date) {
         super();
         this.name = name;
         this.sellIn = sellIn;
         this.quality = quality;
+        this.date = date;
     }
 
     public String getName() {
@@ -38,12 +42,21 @@ public class Item {
         this.quality = quality;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     @Override
     public String toString() {
         return "Item{" +
                 "name='" + name + '\'' +
                 ", sellIn=" + sellIn +
                 ", quality=" + quality +
+                ", date=" + date.toString() +
                 '}';
     }
 }
