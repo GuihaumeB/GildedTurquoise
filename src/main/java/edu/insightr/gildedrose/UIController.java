@@ -58,7 +58,7 @@ public class UIController implements Initializable {
         itemName.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
         itemSellIn.setCellValueFactory(new PropertyValueFactory<Item, String>("sellIn"));
         itemQuality.setCellValueFactory(new PropertyValueFactory<Item, String>("quality"));
-        itemQuality.setCellValueFactory(new PropertyValueFactory<Item, String>("date"));
+        itemDate.setCellValueFactory(new PropertyValueFactory<Item, String>("date"));
 
         tableView1.getItems().setAll(inventory.getItems());
 
