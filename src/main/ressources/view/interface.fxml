@@ -19,6 +19,7 @@
             <TableColumn fx:id="itemName" text = "Item Name"/>
             <TableColumn fx:id="itemSellIn" text = "Item SellIn"/>
             <TableColumn fx:id="itemQuality" text = "Item Quality"/>
+            <TableColumn fx:id="itemDate" text = "Item Date"/>
         </columns>
     </TableView>
 
