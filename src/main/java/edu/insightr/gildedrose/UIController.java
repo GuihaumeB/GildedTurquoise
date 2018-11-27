@@ -54,7 +54,6 @@ public class UIController implements Initializable {
         inv.add("Sulfuras, Hand of Ragnaros");
         inv.add("Backstage passes to a TAFKAL80ETC concert");
         inv.add("Conjured Mana Cake");
-
     }
 
     @FXML
@@ -111,7 +110,7 @@ public class UIController implements Initializable {
                         new PieChart.Data("Backstage Pass", 1),
                         new PieChart.Data("Conjured", 2));
         final PieChart chart = new PieChart(pieChartData);
-        chart.setTitle("Imported Fruits");
+        chart.setTitle("Inventory piechart");
 
         ((Group) scene2.getRoot()).getChildren().add(chart);
         //secondaryLayout.getChildren().add(chart);
