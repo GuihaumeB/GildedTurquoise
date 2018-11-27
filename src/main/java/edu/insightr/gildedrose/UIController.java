@@ -12,9 +12,16 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+
+
+
+
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -91,6 +98,47 @@ public class UIController implements Initializable {
     }
 
 
+
+    public void SellInBarChart(ActionEvent actionEvent) {
+        Stage stage = new Stage();
+        Scene scene = new Scene(new Group());
+        stage.setWidth(500);
+        stage.setHeight(500);
+        scene.getStylesheets().add(getClass().getResource("/view/styles.css").toExternalForm());
+        stage.setTitle("Gilded Rose UI");
+
+        final CategoryAxis xAxis = new CategoryAxis();
+        final NumberAxis yAxis = new NumberAxis();
+        final BarChart<String, Number> bc =
+                new BarChart<String, Number>(xAxis, yAxis);
+        bc.setTitle("Historical SellIn");
+        xAxis.setLabel("sellIn");
+        yAxis.setLabel("number of items");
+
+        Item[] it = inventory.getItems();
+
+        XYChart.Series series1 = new XYChart.Series();
+        series1.setName("Date Sellin");
+        series1.getData().add(new XYChart.Data(Integer.toString(it[0].getSellIn()), 1));
+        series1.getData().add(new XYChart.Data(Integer.toString(it[1].getSellIn()), 1));
+        series1.getData().add(new XYChart.Data(Integer.toString(it[2].getSellIn()), 1));
+        series1.getData().add(new XYChart.Data(Integer.toString(it[3].getSellIn()), 1));
+        series1.getData().add(new XYChart.Data(Integer.toString(it[4].getSellIn()), 1));
+
+        XYChart.Series series2 = new XYChart.Series();
+        series2.setName("Date Sellin");
+        series2.getData().add(new XYChart.Data(Integer.toString(it[0].getSellIn()), 1));
+        series2.getData().add(new XYChart.Data(Integer.toString(it[1].getSellIn()), 1));
+        series2.getData().add(new XYChart.Data(Integer.toString(it[2].getSellIn()), 1));
+        series2.getData().add(new XYChart.Data(Integer.toString(it[3].getSellIn()), 1));
+        series2.getData().add(new XYChart.Data(Integer.toString(it[4].getSellIn()), 1));
+
+        Scene scene2 = new Scene(bc, 800, 600);
+        bc.getData().addAll(series1, series2);
+        stage.setScene(scene2);
+        stage.show();
+    }
+
     public void displayInventory(ActionEvent actionEvent) {
 
         Stage stage2 = new Stage();
@@ -123,4 +171,5 @@ public class UIController implements Initializable {
         stage2.show();
     }
 }
+
 
