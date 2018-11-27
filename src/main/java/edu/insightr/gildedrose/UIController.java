@@ -19,17 +19,6 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 
-import java.io.*;
-
-import org.apache.commons.io.FileUtils;
-import com.google.gson.annotations.SerializedName;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
-
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -218,47 +207,6 @@ public class UIController implements Initializable {
 
         stage2.show();
     }
-
-
-    public void json(){
-        ArrayList<org.json.simple.JSONObject> json=new ArrayList<org.json.simple.JSONObject>();
-        org.json.simple.JSONObject obj;
-        // The name of the file to open.
-        String fileName = "src/main/ressources/inventory.json";
-
-        // This will reference one line at a time
-        String line = null;
-
-        try {
-            // FileReader reads text files in the default encoding.
-            FileReader fileReader = new FileReader(fileName);
-
-            // Always wrap FileReader in BufferedReader.
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-
-            while((line = bufferedReader.readLine()) != null) {
-                obj = (JSONObject) new JSONParser().parse(line);
-                json.add(obj);
-                System.out.println((String)obj.get("name")+":"+
-                        (String)obj.get("date"));
-            }
-            // Always close files.
-            bufferedReader.close();
-        }
-        catch(FileNotFoundException ex) {
-            System.out.println("Unable to open file '" + fileName + "'");
-        }
-        catch(IOException ex) {
-            System.out.println("Error reading file '" + fileName + "'");
-            // Or we could just do this:
-            // ex.printStackTrace();
-        } catch (org.json.simple.parser.ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-
 }
 
 
