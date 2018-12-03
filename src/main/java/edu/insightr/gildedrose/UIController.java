@@ -1,5 +1,6 @@
 package edu.insightr.gildedrose;
 
+import com.google.gson.Gson;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,6 +13,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.chart.BarChart;
@@ -19,6 +21,9 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -113,7 +118,32 @@ public class UIController implements Initializable {
     }
 
 
+    @FXML
+    protected Inventory jsonDeserialize()
+    {
+        Gson gson = new Gson();
 
+        String jsonContent = "";
+
+        try
+        {
+            BufferedReader br = new BufferedReader(new FileReader("/inventory.json"));
+            String st;
+            while ((st = br.readLine())!= null) {
+                jsonContent += st;
+            }
+
+            Inventory importedInventory = gson.fromJson(jsonContent,Inventory.class);
+            inventory.setItems(importedInventory.getItems());
+
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+
+        return inventory;
+    }
 
 
     public void SellInBarChart(ActionEvent actionEvent) {
@@ -148,7 +178,8 @@ public class UIController implements Initializable {
         xAxis1.setLabel("Date");
         yAxis1.setLabel("number of items");
 
-        Item[] it = inventory.getItems();
+        Inventory inv = jsonDeserialize();
+        Item[] it = inv.getItems();
 
         XYChart.Series series1 = new XYChart.Series();
         series1.setName("Date Sellin");
@@ -185,14 +216,17 @@ public class UIController implements Initializable {
         scene2.getStylesheets().add(getClass().getResource("/view/styles.css").toExternalForm());
         stage2.setTitle("Gilded Rose UI");
 
+        Inventory inv = jsonDeserialize();
+        Item[] it = inv.getItems();
+
         ObservableList<PieChart.Data> pieChartData =
                 FXCollections.observableArrayList(
-                        new PieChart.Data("Vest", 1),
-                        new PieChart.Data("Aged Brie", 1),
-                        new PieChart.Data("Elixir", 2),
-                        new PieChart.Data("Sulfuras", 1),
-                        new PieChart.Data("Backstage Pass", 1),
-                        new PieChart.Data("Conjured", 2));
+                        new PieChart.Data(it[0].getName(), 1),
+                        new PieChart.Data(it[1].getName(), 1),
+                        new PieChart.Data(it[2].getName(), 2),
+                        new PieChart.Data(it[3].getName(), 1),
+                        new PieChart.Data(it[4].getName(), 1),
+                        new PieChart.Data(it[5].getName(), 2));
         final PieChart chart = new PieChart(pieChartData);
         chart.setTitle("Inventory piechart");
 

@@ -39,6 +39,8 @@ public class Inventory {
         return items;
     }
 
+    public void setItems(Item[] items) { this.items = items; }
+
     public Inventory() {
         super();
         SimpleDateFormat textFormat = new SimpleDateFormat("yyyy-MM-dd");
