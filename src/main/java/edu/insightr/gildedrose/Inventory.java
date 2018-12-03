@@ -1,30 +1,6 @@
 package edu.insightr.gildedrose;
-
-import org.json.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.*;
-
-
-import org.apache.commons.io.FileUtils;
-import com.google.gson.annotations.SerializedName;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
-
-
 
 public class Inventory {
 
@@ -115,30 +91,11 @@ public class Inventory {
         }
     }
 
-    static void json(){
-
-        JSONObject object = new JSONObject ();
-        JSONArray keys = object.names ();
-
-        for (int i = 0; i < keys.length (); ++i) {
-
-            String key = keys.getString (i); // Here's your key
-            String value = object.getString (key); // Here's your value
-
-        }
-
-
-    }
-
     public static void main(String[] args) {
         Inventory inventory = new Inventory();
         for (int i = 0; i < 10; i++) {
             inventory.updateQuality();
             inventory.printInventory();
         }
-
-        json();
-
-
     }
 }
