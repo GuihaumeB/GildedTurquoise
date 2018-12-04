@@ -33,7 +33,6 @@ class InventoryTest {
 
     @Test
     void sellInLessThanZero() {
-
         SimpleDateFormat textFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
         Item[] items = new Item[1];
@@ -49,13 +48,10 @@ class InventoryTest {
         catch (ParseException e) {
             e.printStackTrace();
         }
-
-
     }
 
     @Test
     void update_Conjured_Mana_Cake() {
-
         SimpleDateFormat textFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
         Item itemTest = new Item("Conjured Mana Cake", 5, 10, textFormat.parse("2018-03-27"));
@@ -71,13 +67,10 @@ class InventoryTest {
         catch (ParseException e) {
             e.printStackTrace();
         }
-
-
     }
 
     @Test
     void update_Backstage_passes_4_days() {
-
         SimpleDateFormat textFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
         Item itemTest = new Item("Backstage passes to a TAFKAL80ETC concert", 4, 30, textFormat.parse("2018-08-07"));
@@ -94,13 +87,10 @@ class InventoryTest {
         catch (ParseException e) {
             e.printStackTrace();
         }
-
-
     }
 
     @Test
     void update_Backstage_passes_8_days() {
-
         SimpleDateFormat textFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
 
@@ -118,8 +108,6 @@ class InventoryTest {
         catch (ParseException e) {
             e.printStackTrace();
         }
-
-
     }
 
     @Test
@@ -140,13 +128,10 @@ class InventoryTest {
         catch (ParseException e) {
             e.printStackTrace();
         }
-
-
     }
 
     @Test
     void update_Aged_Brie() {
-
         SimpleDateFormat textFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
 
@@ -164,11 +149,5 @@ class InventoryTest {
         catch (ParseException e) {
             e.printStackTrace();
         }
-
-
     }
-
-
-
-
 }
