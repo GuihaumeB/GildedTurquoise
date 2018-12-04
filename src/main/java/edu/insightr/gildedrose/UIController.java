@@ -14,7 +14,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.chart.BarChart;
@@ -23,18 +22,13 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class UIController implements Initializable {
-    private Inventory inventory = new Inventory();
+    private Inventory inventory = jsonDeserialize();
 
     @FXML
     private TableView<Item> tableView1;
@@ -55,6 +49,31 @@ public class UIController implements Initializable {
     @FXML
     private DatePicker Date;
 
+    @FXML
+    protected Inventory jsonDeserialize()
+    {
+        Inventory inv = new Inventory();
+
+        String jsonContent = "";
+
+        try
+        {
+            BufferedReader br = new BufferedReader(new FileReader("src/main/ressources/inventory.json"));
+            String st;
+            while ((st = br.readLine())!= null) {
+                jsonContent += st;
+            }
+            ItemList items = new Gson().fromJson(jsonContent, ItemList.class);
+            inv.setItems(items);
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+
+        return inv;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         itemName.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
@@ -63,14 +82,6 @@ public class UIController implements Initializable {
         itemDate.setCellValueFactory(new PropertyValueFactory<Item, String>("date"));
 
         tableView1.getItems().setAll(inventory.getItems());
-
-        List<String> inv = new ArrayList<String>();
-        inv.add("+5 Dexterity Vest");
-        inv.add("Aged Brie");
-        inv.add("Elixir of the Mongoose");
-        inv.add("Sulfuras, Hand of Ragnaros");
-        inv.add("Backstage passes to a TAFKAL80ETC concert");
-        inv.add("Conjured Mana Cake");
     }
 
     @FXML
@@ -107,34 +118,6 @@ public class UIController implements Initializable {
         tableView1.getItems().setAll(inventory.getItems());
         tableView1.getItems();
         tableView1.refresh();
-    }
-
-
-    @FXML
-    protected Inventory jsonDeserialize()
-    {
-        Gson gson = new Gson();
-
-        String jsonContent = "";
-
-        try
-        {
-            BufferedReader br = new BufferedReader(new FileReader("inventory.json"));
-            String st;
-            while ((st = br.readLine())!= null) {
-                jsonContent += st;
-            }
-
-            Inventory importedInventory = gson.fromJson(jsonContent,Inventory.class);
-            inventory.setItems(importedInventory.getItems());
-
-        }
-        catch(Exception e)
-        {
-            System.out.println(e);
-        }
-
-        return inventory;
     }
 
     public int dateCounter(Item[] items){
@@ -236,7 +219,6 @@ public class UIController implements Initializable {
         chart.setTitle("Inventory piechart");
 
         ((Group) scene2.getRoot()).getChildren().add(chart);
-        //secondaryLayout.getChildren().add(chart);
 
         // Specifies the modality for new window.
         stage2.initModality(Modality.WINDOW_MODAL);
