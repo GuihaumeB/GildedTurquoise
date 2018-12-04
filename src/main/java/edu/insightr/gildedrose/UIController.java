@@ -93,8 +93,6 @@ public class UIController implements Initializable {
             Item newItem = new Item(name, sellin, qual, date);
 
 
-
-
         Item[] items = new Item[this.inventory.getItems().length+1];
 
         for( int i = 0; i < this.inventory.getItems().length; i++)
