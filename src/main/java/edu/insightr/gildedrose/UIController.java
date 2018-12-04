@@ -166,8 +166,7 @@ public class UIController implements Initializable {
         xAxis1.setLabel("Date");
         yAxis1.setLabel("Number of items");
 
-        Inventory inv = jsonDeserialize();
-        Item[] it = inv.getItems();
+        Item[] it = inventory.getItems();
 
         XYChart.Series series1 = new XYChart.Series();
         series1.setName("Date Sellin");
@@ -204,17 +203,16 @@ public class UIController implements Initializable {
         scene2.getStylesheets().add(getClass().getResource("/view/styles.css").toExternalForm());
         stage2.setTitle("Gilded Rose UI");
 
-        Inventory inv = jsonDeserialize();
-        Item[] it = inv.getItems();
+        Item[] it = inventory.getItems();
 
         ObservableList<PieChart.Data> pieChartData =
                 FXCollections.observableArrayList(
-                        new PieChart.Data(it[0].getName(), 1),
-                        new PieChart.Data(it[1].getName(), 1),
-                        new PieChart.Data(it[2].getName(), 2),
-                        new PieChart.Data(it[3].getName(), 1),
-                        new PieChart.Data(it[4].getName(), 1),
-                        new PieChart.Data(it[5].getName(), 2));
+                        new PieChart.Data("Vest", 1),
+                        new PieChart.Data("Brie", 1),
+                        new PieChart.Data("Elixir", 3),
+                        new PieChart.Data("Conjured", 2),
+                        new PieChart.Data("Sulfuras", 1),
+                        new PieChart.Data("Backstage Pass", 1));
         final PieChart chart = new PieChart(pieChartData);
         chart.setTitle("Inventory piechart");
 
