@@ -11,28 +11,19 @@ public class Inventory {
         this.items = items;
     }
 
+    public Inventory(ItemList items){
+        super();
+        this.items = items.items;
+    }
+
     public Item[] getItems() {
         return items;
     }
 
-    public void setItems(Item[] items) { this.items = items; }
+    public void setItems(ItemList items) { this.items = items.items; }
 
     public Inventory() {
         super();
-        SimpleDateFormat textFormat = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            items = new Item[]{
-                    new Item("+5 Dexterity Vest", 10, 20, textFormat.parse("2017-10-05")),
-                    new Item("Aged Brie", 2, 0, textFormat.parse("2018-11-07")),
-                    new Item("Elixir of the Mongoose", 5, 7, textFormat.parse("2016-10-07")),
-                    new Item("Sulfuras, Hand of Ragnaros", 0, 80, textFormat.parse("2018-10-17")),
-                    new Item("Backstage passes to a TAFKAL80ETC concert", 15, 20, textFormat.parse("2018-08-07")),
-                    new Item("Conjured Mana Cake", 3, 6, textFormat.parse("2018-03-27"))
-            };
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
     }
 
     public void printInventory() {

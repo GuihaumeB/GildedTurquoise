@@ -6,9 +6,8 @@ public class Item {
 
     private String name;
     private int sellIn;
-    private Date date;
-
     private int quality;
+    private Date date;
 
     public Item(String name, int sellIn, int quality, Date date) {
         super();
