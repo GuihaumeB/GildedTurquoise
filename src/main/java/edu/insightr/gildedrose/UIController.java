@@ -172,30 +172,26 @@ public class UIController implements Initializable {
 
         bc1.setTitle("Historical Date");
 
-        xAxis.setLabel("sellIn");
-        yAxis.setLabel("number of items");
+        xAxis.setLabel("SellIn");
+        yAxis.setLabel("Number of items");
 
         xAxis1.setLabel("Date");
-        yAxis1.setLabel("number of items");
+        yAxis1.setLabel("Number of items");
 
         Inventory inv = jsonDeserialize();
         Item[] it = inv.getItems();
 
         XYChart.Series series1 = new XYChart.Series();
         series1.setName("Date Sellin");
-        series1.getData().add(new XYChart.Data(Integer.toString(it[0].getSellIn()), 1));
-        series1.getData().add(new XYChart.Data(Integer.toString(it[1].getSellIn()), 1));
-        series1.getData().add(new XYChart.Data(Integer.toString(it[2].getSellIn()), 1));
-        series1.getData().add(new XYChart.Data(Integer.toString(it[3].getSellIn()), 1));
-        series1.getData().add(new XYChart.Data(Integer.toString(it[4].getSellIn()), 1));
+        for (Item item : it) {
+            series1.getData().add(new XYChart.Data(Integer.toString(item.getSellIn()),1));
+        }
 
         XYChart.Series series2 = new XYChart.Series();
         series2.setName("Date");
-        series2.getData().add(new XYChart.Data(it[0].getDate().toString(), 1));
-        series2.getData().add(new XYChart.Data(it[1].getDate().toString(), 1));
-        series2.getData().add(new XYChart.Data(it[2].getDate().toString(), 1));
-        series2.getData().add(new XYChart.Data(it[3].getDate().toString(), 1));
-        series2.getData().add(new XYChart.Data(it[4].getDate().toString(), 1));
+        for (Item item : it) {
+            series2.getData().add(new XYChart.Data(Integer.toString(item.getSellIn()),1));
+        }
 
         Scene scene2 = new Scene(bc, 800, 600);
         Scene scene3 = new Scene(bc1,800,600);
