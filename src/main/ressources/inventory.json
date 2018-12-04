@@ -55,6 +55,13 @@
         "sellIn": "1",
         "quality": "80",
         "date" : "2018-01-12"
+      },
+
+      {
+        "name": "Elixir of Rodrigo",
+        "sellIn": "3",
+        "quality": "7",
+        "date" : "2018-01-12"
       }
     ]
   }

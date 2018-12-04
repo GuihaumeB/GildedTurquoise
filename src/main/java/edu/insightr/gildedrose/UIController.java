@@ -119,7 +119,7 @@ public class UIController implements Initializable {
 
         try
         {
-            BufferedReader br = new BufferedReader(new FileReader("/inventory.json"));
+            BufferedReader br = new BufferedReader(new FileReader("inventory.json"));
             String st;
             while ((st = br.readLine())!= null) {
                 jsonContent += st;
@@ -137,6 +137,19 @@ public class UIController implements Initializable {
         return inventory;
     }
 
+    public int dateCounter(Item[] items){
+        int occurences = 1;
+        for (int i = 0; i < items.length; i++){
+
+            for (int j = 0; j < i; j++){
+                if(items[i].getDate() == items[j].getDate()){
+                    occurences++;
+                }
+            }
+        }
+
+        return occurences;
+    }
 
     public void SellInBarChart(ActionEvent actionEvent) {
         Stage stage = new Stage();
@@ -181,8 +194,12 @@ public class UIController implements Initializable {
 
         XYChart.Series series2 = new XYChart.Series();
         series2.setName("Date");
+
+
+
         for (Item item : it) {
-            series2.getData().add(new XYChart.Data(item.getDate().toString(),1));
+            int occurences = dateCounter(it);
+            series2.getData().add(new XYChart.Data(item.getDate().toString(),occurences));
         }
 
         Scene scene2 = new Scene(bc, 800, 600);
