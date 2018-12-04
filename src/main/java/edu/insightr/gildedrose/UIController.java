@@ -113,8 +113,7 @@ public class UIController implements Initializable {
 
         items[this.inventory.getItems().length] = newItem;
 
-
-        inventory = new Inventory(items);
+        inventory.setItems(items);
 
         tableView1.getItems().setAll(inventory.getItems());
         tableView1.getItems();
@@ -122,11 +121,11 @@ public class UIController implements Initializable {
     }
 
     public int dateCounter(Item[] items){
-        int occurences = 1;
+        int occurences = 0;
         for (int i = 0; i < items.length; i++){
 
             for (int j = 0; j < i; j++){
-                if(items[i].getDate() == items[j].getDate()){
+                if(items[i].getDate().compareTo(items[j].getDate()) == 0){
                     occurences++;
                 }
             }
@@ -178,11 +177,10 @@ public class UIController implements Initializable {
         XYChart.Series series2 = new XYChart.Series();
         series2.setName("Date");
 
-
-
         for (Item item : it) {
             int occurences = dateCounter(it);
-            series2.getData().add(new XYChart.Data(item.getDate().toString(),occurences));
+            System.out.println(occurences);
+            series2.getData().add(new XYChart.Data(item.getDate().toString(), occurences));
         }
 
         Scene scene2 = new Scene(bc, 800, 600);

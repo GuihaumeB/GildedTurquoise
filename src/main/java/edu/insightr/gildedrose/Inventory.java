@@ -1,6 +1,4 @@
 package edu.insightr.gildedrose;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 public class Inventory {
 
@@ -19,6 +17,8 @@ public class Inventory {
     public Item[] getItems() {
         return items;
     }
+
+    public void setItems(Item[] items) { this.items = items; }
 
     public void setItems(ItemList items) { this.items = items.items; }
 
