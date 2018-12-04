@@ -90,8 +90,4 @@ public class Inventory {
         }
     }
 
-    public static int NbItems(Inventory inventaire){
-        Item[] items = inventaire.getItems();
-        return items.length;
-    }
 }

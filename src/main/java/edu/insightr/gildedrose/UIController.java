@@ -24,6 +24,7 @@ import javafx.scene.chart.XYChart;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.net.URL;
+import java.security.Key;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -194,6 +195,22 @@ public class UIController implements Initializable {
         stage1.show();
     }
 
+    public int KeyWordCounter(String keyword)
+    {
+        Item[] it = inventory.getItems();
+        int compteur = 0;
+        for (int i=0; i<it.length; i++)
+        {
+
+            if (it[i].getName().matches(".*"+keyword+".*"))
+            {
+                compteur++;
+            }
+        }
+        return compteur;
+    }
+
+
     public void displayInventory(ActionEvent actionEvent) {
 
         Stage stage2 = new Stage();
@@ -203,16 +220,14 @@ public class UIController implements Initializable {
         scene2.getStylesheets().add(getClass().getResource("/view/styles.css").toExternalForm());
         stage2.setTitle("Gilded Rose UI");
 
-        Item[] it = inventory.getItems();
-
         ObservableList<PieChart.Data> pieChartData =
                 FXCollections.observableArrayList(
-                        new PieChart.Data("Vest", 1),
-                        new PieChart.Data("Brie", 1),
-                        new PieChart.Data("Elixir", 3),
-                        new PieChart.Data("Conjured", 2),
-                        new PieChart.Data("Sulfuras", 1),
-                        new PieChart.Data("Backstage Pass", 1));
+                        new PieChart.Data("Vest", KeyWordCounter("Vest")),
+                        new PieChart.Data("Brie", KeyWordCounter("Brie")),
+                        new PieChart.Data("Elixir", KeyWordCounter("Elixir")),
+                        new PieChart.Data("Conjured", KeyWordCounter("Conjured")),
+                        new PieChart.Data("Sulfuras", KeyWordCounter("Sulfuras")),
+                        new PieChart.Data("Backstage Pass", KeyWordCounter("Backstage")));
         final PieChart chart = new PieChart(pieChartData);
         chart.setTitle("Inventory piechart");
 
