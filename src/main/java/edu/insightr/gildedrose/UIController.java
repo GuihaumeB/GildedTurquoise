@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -52,7 +53,7 @@ public class UIController implements Initializable {
     @FXML
     private TextField Quality;
     @FXML
-    private TextField Date;
+    private DatePicker Date;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -88,13 +89,8 @@ public class UIController implements Initializable {
         name = Name.getText();
         sellin = Integer.parseInt(SellIn.getText());
         qual = Integer.parseInt(Quality.getText());
-        SimpleDateFormat textFormat = new SimpleDateFormat("yyyy-MM-dd");
-        try{
-        date = new SimpleDateFormat("yyyy-mm-dd").parse(Date.toString());
-            Item newItem = new Item(name, sellin, qual, date);
-
-
-
+        date = java.sql.Date.valueOf(Date.getValue());
+        Item newItem = new Item(name, sellin, qual, date);
 
         Item[] items = new Item[this.inventory.getItems().length+1];
 
@@ -111,10 +107,6 @@ public class UIController implements Initializable {
         tableView1.getItems().setAll(inventory.getItems());
         tableView1.getItems();
         tableView1.refresh();
-        }
-        catch (ParseException e) {
-            e.printStackTrace();
-        }
     }
 
 
@@ -190,7 +182,7 @@ public class UIController implements Initializable {
         XYChart.Series series2 = new XYChart.Series();
         series2.setName("Date");
         for (Item item : it) {
-            series2.getData().add(new XYChart.Data(Integer.toString(item.getSellIn()),1));
+            series2.getData().add(new XYChart.Data(item.getDate().toString(),1));
         }
 
         Scene scene2 = new Scene(bc, 800, 600);
