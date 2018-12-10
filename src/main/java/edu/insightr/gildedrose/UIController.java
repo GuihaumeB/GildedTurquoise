@@ -1,5 +1,6 @@
 package edu.insightr.gildedrose;
 
+import com.google.gson.Gson;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -8,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -19,20 +21,15 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 
-
-
-
-
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.security.Key;
 import java.util.Date;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class UIController implements Initializable {
-    private Inventory inventory = new Inventory();
+    private Inventory inventory = jsonDeserialize();
 
     @FXML
     private TableView<Item> tableView1;
@@ -51,24 +48,41 @@ public class UIController implements Initializable {
     @FXML
     private TextField Quality;
     @FXML
-    private TextField Date;
+    private DatePicker Date;
+
+    @FXML
+    protected Inventory jsonDeserialize()
+    {
+        Inventory inv = new Inventory();
+
+        String jsonContent = "";
+
+        try
+        {
+            BufferedReader br = new BufferedReader(new FileReader("src/main/ressources/inventory.json"));
+            String st;
+            while ((st = br.readLine())!= null) {
+                jsonContent += st;
+            }
+            ItemList items = new Gson().fromJson(jsonContent, ItemList.class);
+            inv.setItems(items);
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+
+        return inv;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         itemName.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
         itemSellIn.setCellValueFactory(new PropertyValueFactory<Item, String>("sellIn"));
         itemQuality.setCellValueFactory(new PropertyValueFactory<Item, String>("quality"));
-        itemQuality.setCellValueFactory(new PropertyValueFactory<Item, String>("date"));
+        itemDate.setCellValueFactory(new PropertyValueFactory<Item, String>("date"));
 
         tableView1.getItems().setAll(inventory.getItems());
-
-        List<String> inv = new ArrayList<String>();
-        inv.add("+5 Dexterity Vest");
-        inv.add("Aged Brie");
-        inv.add("Elixir of the Mongoose");
-        inv.add("Sulfuras, Hand of Ragnaros");
-        inv.add("Backstage passes to a TAFKAL80ETC concert");
-        inv.add("Conjured Mana Cake");
     }
 
     @FXML
@@ -87,13 +101,8 @@ public class UIController implements Initializable {
         name = Name.getText();
         sellin = Integer.parseInt(SellIn.getText());
         qual = Integer.parseInt(Quality.getText());
-        SimpleDateFormat textFormat = new SimpleDateFormat("yyyy-MM-dd");
-        try{
-        date = new SimpleDateFormat("yyyy-mm-dd").parse(Date.toString());
-            Item newItem = new Item(name, sellin, qual, date);
-
-
-
+        date = java.sql.Date.valueOf(Date.getValue());
+        Item newItem = new Item(name, sellin, qual, date);
 
         Item[] items = new Item[this.inventory.getItems().length+1];
 
@@ -104,21 +113,26 @@ public class UIController implements Initializable {
 
         items[this.inventory.getItems().length] = newItem;
 
-
-        inventory = new Inventory(items);
+        inventory.setItems(items);
 
         tableView1.getItems().setAll(inventory.getItems());
         tableView1.getItems();
         tableView1.refresh();
-        }
-        catch (ParseException e) {
-            e.printStackTrace();
-        }
     }
 
+    public int dateCounter(Item[] items){
+        int occurences = 0;
+        for (int i = 0; i < items.length; i++){
 
+            for (int j = 0; j < i; j++){
+                if(items[i].getDate().compareTo(items[j].getDate()) == 0){
+                    occurences++;
+                }
+            }
+        }
 
-
+        return occurences;
+    }
 
     public void SellInBarChart(ActionEvent actionEvent) {
         Stage stage = new Stage();
@@ -146,29 +160,28 @@ public class UIController implements Initializable {
 
         bc1.setTitle("Historical Date");
 
-        xAxis.setLabel("sellIn");
-        yAxis.setLabel("number of items");
+        xAxis.setLabel("SellIn");
+        yAxis.setLabel("Number of items");
 
         xAxis1.setLabel("Date");
-        yAxis1.setLabel("number of items");
+        yAxis1.setLabel("Number of items");
 
         Item[] it = inventory.getItems();
 
         XYChart.Series series1 = new XYChart.Series();
         series1.setName("Date Sellin");
-        series1.getData().add(new XYChart.Data(Integer.toString(it[0].getSellIn()), 1));
-        series1.getData().add(new XYChart.Data(Integer.toString(it[1].getSellIn()), 1));
-        series1.getData().add(new XYChart.Data(Integer.toString(it[2].getSellIn()), 1));
-        series1.getData().add(new XYChart.Data(Integer.toString(it[3].getSellIn()), 1));
-        series1.getData().add(new XYChart.Data(Integer.toString(it[4].getSellIn()), 1));
+        for (Item item : it) {
+            series1.getData().add(new XYChart.Data(Integer.toString(item.getSellIn()),1));
+        }
 
         XYChart.Series series2 = new XYChart.Series();
         series2.setName("Date");
-        series2.getData().add(new XYChart.Data(it[0].getDate().toString(), 1));
-        series2.getData().add(new XYChart.Data(it[1].getDate().toString(), 1));
-        series2.getData().add(new XYChart.Data(it[2].getDate().toString(), 1));
-        series2.getData().add(new XYChart.Data(it[3].getDate().toString(), 1));
-        series2.getData().add(new XYChart.Data(it[4].getDate().toString(), 1));
+
+        for (Item item : it) {
+            int occurences = dateCounter(it);
+            System.out.println(occurences);
+            series2.getData().add(new XYChart.Data(item.getDate().toString(), occurences));
+        }
 
         Scene scene2 = new Scene(bc, 800, 600);
         Scene scene3 = new Scene(bc1,800,600);
@@ -179,6 +192,22 @@ public class UIController implements Initializable {
         stage.show();
         stage1.show();
     }
+
+    public int KeyWordCounter(String keyword)
+    {
+        Item[] it = inventory.getItems();
+        int compteur = 0;
+        for (int i=0; i<it.length; i++)
+        {
+
+            if (it[i].getName().matches(".*"+keyword+".*"))
+            {
+                compteur++;
+            }
+        }
+        return compteur;
+    }
+
 
     public void displayInventory(ActionEvent actionEvent) {
 
@@ -191,17 +220,16 @@ public class UIController implements Initializable {
 
         ObservableList<PieChart.Data> pieChartData =
                 FXCollections.observableArrayList(
-                        new PieChart.Data("Vest", 1),
-                        new PieChart.Data("Aged Brie", 1),
-                        new PieChart.Data("Elixir", 2),
-                        new PieChart.Data("Sulfuras", 1),
-                        new PieChart.Data("Backstage Pass", 1),
-                        new PieChart.Data("Conjured", 2));
+                        new PieChart.Data("Vest", KeyWordCounter("Vest")),
+                        new PieChart.Data("Brie", KeyWordCounter("Brie")),
+                        new PieChart.Data("Elixir", KeyWordCounter("Elixir")),
+                        new PieChart.Data("Conjured", KeyWordCounter("Conjured")),
+                        new PieChart.Data("Sulfuras", KeyWordCounter("Sulfuras")),
+                        new PieChart.Data("Backstage Pass", KeyWordCounter("Backstage")));
         final PieChart chart = new PieChart(pieChartData);
         chart.setTitle("Inventory piechart");
 
         ((Group) scene2.getRoot()).getChildren().add(chart);
-        //secondaryLayout.getChildren().add(chart);
 
         // Specifies the modality for new window.
         stage2.initModality(Modality.WINDOW_MODAL);

@@ -10,6 +10,7 @@
 
 
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.DatePicker?>
 <GridPane fx:controller="edu.insightr.gildedrose.UIController"
           stylesheets = "styles.css"
           xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
@@ -30,6 +31,7 @@
         <TextField fx:id="Name" prefWidth="150"/>
         <TextField fx:id="SellIn" prefWidth="50"/>
         <TextField fx:id="Quality" prefWidth="50"/>
+        <DatePicker fx:id="Date" prefWidth="50"/>
         <Button text="Add" onAction="#add"/>
     </HBox>
 </GridPane>
