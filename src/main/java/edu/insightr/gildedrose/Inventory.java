@@ -38,12 +38,11 @@ public class Inventory {
     public void updateQuality() {
         for (Item item : items) {
             if ("Sulfuras, Hand of Ragnaros".equals(item.getName())) continue;
-            if ("Aged Brie".equals(item.getName())) {
-                item.setSellIn(item.getSellIn() - 1);
+            if ("Aged Brie".equals(item.getName())){
                 increaseQuality(item);
-                if (item.getSellIn() < 0) increaseQuality(item);
+                if (item.getSellIn() > 0) item.setSellIn(item.getSellIn() - 1);
             } else if ("Backstage passes to a TAFKAL80ETC concert".equals(item.getName())) {
-                item.setSellIn(item.getSellIn() - 1);
+                if (item.getSellIn() > 0) item.setSellIn(item.getSellIn() - 1);
                 increaseQuality(item);
 
                 if ("Backstage passes to a TAFKAL80ETC concert".equals(item.getName())) {
@@ -57,11 +56,11 @@ public class Inventory {
 
             //Looking for names containing "Conjured"
             else if (item.getName().matches(".*Conjured.*")) {
-                item.setSellIn(item.getSellIn() - 1);
+                if (item.getSellIn() > 0) item.setSellIn(item.getSellIn() - 1);
                 decreaseQuality(item);
                 decreaseQuality(item);
             } else {
-                item.setSellIn(item.getSellIn() - 1);
+                if (item.getSellIn() > 0) item.setSellIn(item.getSellIn() - 1);
                 decreaseQuality(item);
 
                 if (item.getSellIn() < 0) decreaseQuality(item);
