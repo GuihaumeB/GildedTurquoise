@@ -7,14 +7,40 @@ public class Item {
     private String name;
     private int sellIn;
     private int quality;
-    private Date date;
+    private Date buyDate;
+    private Date sellDate;
+    private int buyPrice;
+    private int sellPrice;
 
-    public Item(String name, int sellIn, int quality, Date date) {
+    public Item(){
+        super();
+        name = "tmp";
+        sellIn = 0;
+        quality = 0;
+        buyDate = null;
+        sellDate = null;
+        buyPrice = 0;
+        sellPrice = 0;
+    }
+    public Item(String name, int sellIn, int quality, Date BuyDate) {
         super();
         this.name = name;
         this.sellIn = sellIn;
         this.quality = quality;
-        this.date = date;
+        this.buyDate = BuyDate;
+        sellDate = null;
+        buyPrice = 0;
+        sellPrice = 0;
+    }
+    public Item(String name, int sellIn, int quality, Date BuyDate, Date sellDate,int BuyPrice, int sellPrice) {
+        super();
+        this.name = name;
+        this.sellIn = sellIn;
+        this.quality = quality;
+        this.buyDate = BuyDate;
+        this.sellDate = sellDate;
+        this.buyPrice = BuyPrice;
+        this.sellPrice = sellPrice;
     }
 
     public String getName() {
@@ -42,11 +68,23 @@ public class Item {
     }
 
     public Date getDate() {
-        return date;
+        return buyDate;
+    }
+
+    public Date getSellDate() {
+        return sellDate;
+    }
+
+    public int getBuyPrice() {
+        return buyPrice;
+    }
+
+    public int getSellPrice() {
+        return sellPrice;
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        this.buyDate = date;
     }
 
     @Override
@@ -55,7 +93,10 @@ public class Item {
                 "name='" + name + '\'' +
                 ", sellIn=" + sellIn +
                 ", quality=" + quality +
-                ", date=" + date.toString() +
+                ", buyDate=" + buyDate.toString() +
+                ", sellDate=" + sellDate.toString() +
+                ", buyPrice=" + buyPrice +
+                ", sellPrice=" + sellPrice +
                 '}';
     }
 }
