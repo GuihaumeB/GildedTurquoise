@@ -1,6 +1,9 @@
 package edu.insightr.gildedrose;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.stream.JsonWriter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,11 +23,11 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
-import java.security.Key;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -51,10 +54,9 @@ public class UIController implements Initializable {
     private DatePicker Date;
 
     @FXML
-    protected Inventory jsonDeserialize()
+    private Inventory jsonDeserialize()
     {
         Inventory inv = new Inventory();
-
         String jsonContent = "";
 
         try
@@ -66,6 +68,7 @@ public class UIController implements Initializable {
             }
             ItemList items = new Gson().fromJson(jsonContent, ItemList.class);
             inv.setItems(items);
+            br.close();
         }
         catch(Exception e)
         {
@@ -75,12 +78,40 @@ public class UIController implements Initializable {
         return inv;
     }
 
+    public void jsonSerialize(ActionEvent event){
+        Item[] it = inventory.getItems();
+        ItemList items = new ItemList();
+        items.setItems(it);
+
+        try {
+            JsonWriter writer = new JsonWriter(new FileWriter("src/main/ressources/stock.json"));
+            writer.beginObject();
+            writer.name("items");
+            writer.beginArray();
+            for (Item i : it) {
+                writer.beginObject();
+                writer.name("name").value(i.getName());
+                writer.name("sellIn").value(i.getSellIn());
+                writer.name("quality").value(i.getQuality());
+                writer.name("date").value(i.getDate().toString());
+                writer.endObject();
+            }
+            writer.endArray();
+            writer.endObject();
+            writer.close();
+            System.out.println("Save complete.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        itemName.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
-        itemSellIn.setCellValueFactory(new PropertyValueFactory<Item, String>("sellIn"));
-        itemQuality.setCellValueFactory(new PropertyValueFactory<Item, String>("quality"));
-        itemDate.setCellValueFactory(new PropertyValueFactory<Item, String>("date"));
+        itemName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        itemSellIn.setCellValueFactory(new PropertyValueFactory<>("sellIn"));
+        itemQuality.setCellValueFactory(new PropertyValueFactory<>("quality"));
+        itemDate.setCellValueFactory(new PropertyValueFactory<>("date"));
 
         tableView1.getItems().setAll(inventory.getItems());
     }
@@ -120,7 +151,7 @@ public class UIController implements Initializable {
         tableView1.refresh();
     }
 
-    public int dateCounter(Item[] items){
+    private int dateCounter(Item[] items){
         int occurences = 0;
         for (int i = 0; i < items.length; i++){
 
@@ -151,10 +182,10 @@ public class UIController implements Initializable {
         final NumberAxis yAxis1 = new NumberAxis();
 
         final BarChart<String, Number> bc =
-                new BarChart<String, Number>(xAxis, yAxis);
+                new BarChart<>(xAxis, yAxis);
 
         final BarChart<String, Number> bc1 =
-                new BarChart<String, Number>(xAxis1, yAxis1);
+                new BarChart<>(xAxis1, yAxis1);
 
         bc.setTitle("Historical SellIn");
 
@@ -193,21 +224,19 @@ public class UIController implements Initializable {
         stage1.show();
     }
 
-    public int KeyWordCounter(String keyword)
+    private int KeyWordCounter(String keyword)
     {
         Item[] it = inventory.getItems();
         int compteur = 0;
-        for (int i=0; i<it.length; i++)
+        for (Item i : it)
         {
-
-            if (it[i].getName().matches(".*"+keyword+".*"))
+            if (i.getName().matches(".*"+keyword+".*"))
             {
                 compteur++;
             }
         }
         return compteur;
     }
-
 
     public void displayInventory(ActionEvent actionEvent) {
 
@@ -240,5 +269,3 @@ public class UIController implements Initializable {
         stage2.show();
     }
 }
-
-
