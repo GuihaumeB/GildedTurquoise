@@ -1,6 +1,9 @@
 package edu.insightr.gildedrose;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.stream.JsonWriter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,11 +23,11 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
-import java.security.Key;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -66,6 +69,7 @@ public class UIController implements Initializable {
             }
             ItemList items = new Gson().fromJson(jsonContent, ItemList.class);
             inv.setItems(items);
+            br.close();
         }
         catch(Exception e)
         {
@@ -73,6 +77,34 @@ public class UIController implements Initializable {
         }
 
         return inv;
+    }
+
+    public void jsonSerialize(ActionEvent event){
+        Item[] it = inventory.getItems();
+        ItemList items = new ItemList();
+        items.setItems(it);
+
+        try {
+            JsonWriter writer = new JsonWriter(new FileWriter("src/main/ressources/stock.json"));
+            writer.beginObject();
+            writer.name("items");
+            writer.beginArray();
+            for (Item i : it) {
+                writer.beginObject();
+                writer.name("name").value(i.getName());
+                writer.name("sellIn").value(i.getSellIn());
+                writer.name("quality").value(i.getQuality());
+                writer.name("date").value(i.getDate().toString());
+                writer.endObject();
+            }
+            writer.endArray();
+            writer.endObject();
+            writer.close();
+            System.out.println("Save complete.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -208,7 +240,6 @@ public class UIController implements Initializable {
         return compteur;
     }
 
-
     public void displayInventory(ActionEvent actionEvent) {
 
         Stage stage2 = new Stage();
@@ -240,5 +271,3 @@ public class UIController implements Initializable {
         stage2.show();
     }
 }
-
-
