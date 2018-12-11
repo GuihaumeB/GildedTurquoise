@@ -54,10 +54,9 @@ public class UIController implements Initializable {
     private DatePicker Date;
 
     @FXML
-    protected Inventory jsonDeserialize()
+    private Inventory jsonDeserialize()
     {
         Inventory inv = new Inventory();
-
         String jsonContent = "";
 
         try
@@ -109,10 +108,10 @@ public class UIController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        itemName.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
-        itemSellIn.setCellValueFactory(new PropertyValueFactory<Item, String>("sellIn"));
-        itemQuality.setCellValueFactory(new PropertyValueFactory<Item, String>("quality"));
-        itemDate.setCellValueFactory(new PropertyValueFactory<Item, String>("date"));
+        itemName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        itemSellIn.setCellValueFactory(new PropertyValueFactory<>("sellIn"));
+        itemQuality.setCellValueFactory(new PropertyValueFactory<>("quality"));
+        itemDate.setCellValueFactory(new PropertyValueFactory<>("date"));
 
         tableView1.getItems().setAll(inventory.getItems());
     }
@@ -152,7 +151,7 @@ public class UIController implements Initializable {
         tableView1.refresh();
     }
 
-    public int dateCounter(Item[] items){
+    private int dateCounter(Item[] items){
         int occurences = 0;
         for (int i = 0; i < items.length; i++){
 
@@ -183,10 +182,10 @@ public class UIController implements Initializable {
         final NumberAxis yAxis1 = new NumberAxis();
 
         final BarChart<String, Number> bc =
-                new BarChart<String, Number>(xAxis, yAxis);
+                new BarChart<>(xAxis, yAxis);
 
         final BarChart<String, Number> bc1 =
-                new BarChart<String, Number>(xAxis1, yAxis1);
+                new BarChart<>(xAxis1, yAxis1);
 
         bc.setTitle("Historical SellIn");
 
@@ -225,14 +224,13 @@ public class UIController implements Initializable {
         stage1.show();
     }
 
-    public int KeyWordCounter(String keyword)
+    private int KeyWordCounter(String keyword)
     {
         Item[] it = inventory.getItems();
         int compteur = 0;
-        for (int i=0; i<it.length; i++)
+        for (Item i : it)
         {
-
-            if (it[i].getName().matches(".*"+keyword+".*"))
+            if (i.getName().matches(".*"+keyword+".*"))
             {
                 compteur++;
             }
