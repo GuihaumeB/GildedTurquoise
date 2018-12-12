@@ -42,6 +42,8 @@ public class UIController implements Initializable {
     @FXML
     private TableColumn<Item, String> itemDate;
     @FXML
+    private TableColumn<Item, String> itemPrice;
+    @FXML
     private TextField Name;
     @FXML
     private TextField SellIn;
@@ -49,6 +51,8 @@ public class UIController implements Initializable {
     private TextField Quality;
     @FXML
     private DatePicker Date;
+    @FXML
+    private TextField Price;
 
     @FXML
     private Inventory jsonDeserialize()
@@ -102,6 +106,7 @@ public class UIController implements Initializable {
         itemSellIn.setCellValueFactory(new PropertyValueFactory<>("sellIn"));
         itemQuality.setCellValueFactory(new PropertyValueFactory<>("quality"));
         itemDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        itemPrice.setCellValueFactory(new PropertyValueFactory<>("buyPrice"));
 
         tableView1.getItems().setAll(inventory.getItems());
     }
@@ -117,18 +122,20 @@ public class UIController implements Initializable {
         String name;
         int sellin;
         int qual;
-        Date date = null;
+        Date date;
+        int price;
 
         name = Name.getText();
         sellin = Integer.parseInt(SellIn.getText());
         qual = Integer.parseInt(Quality.getText());
+        price = Integer.parseInt(Price.getText());
 
         //conversion local date to date
         ZoneId defaultZoneId = ZoneId.systemDefault();
         LocalDate localDate = Date.getValue();
         date = java.util.Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
 
-        Item newItem = new Item(name, sellin, qual, date);
+        Item newItem = new Item(name, sellin, qual, date, price);
 
         Item[] items = new Item[this.inventory.getItems().length+1];
 

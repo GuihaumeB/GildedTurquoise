@@ -32,6 +32,18 @@ public class Item {
         buyPrice = 0;
         sellPrice = 0;
     }
+
+    public Item(String name, int sellIn, int quality, Date date, int buyPrice) {
+        super();
+        this.name = name;
+        this.sellIn = sellIn;
+        this.quality = quality;
+        this.date = date;
+        sellDate = null;
+        this.buyPrice = buyPrice;
+        sellPrice = 0;
+    }
+
     public Item(String name, int sellIn, int quality, Date date, Date sellDate, int BuyPrice, int sellPrice) {
         super();
         this.name = name;
