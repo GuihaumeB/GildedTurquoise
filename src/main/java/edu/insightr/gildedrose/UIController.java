@@ -1,9 +1,6 @@
 package edu.insightr.gildedrose;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.stream.JsonWriter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,11 +20,11 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+
+import java.io.*;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -83,25 +80,18 @@ public class UIController implements Initializable {
         ItemList items = new ItemList();
         items.setItems(it);
 
-        try {
-            JsonWriter writer = new JsonWriter(new FileWriter("src/main/ressources/stock.json"));
-            writer.beginObject();
-            writer.name("items");
-            writer.beginArray();
-            for (Item i : it) {
-                writer.beginObject();
-                writer.name("name").value(i.getName());
-                writer.name("sellIn").value(i.getSellIn());
-                writer.name("quality").value(i.getQuality());
-                writer.name("date").value(i.getDate().toString());
-                writer.endObject();
-            }
-            writer.endArray();
-            writer.endObject();
-            writer.close();
+        try
+        {
+            BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/ressources/inventory.json"));
+            String st;
+            st = new Gson().toJson(items, ItemList.class);
+            bw.write(st);
+            bw.close();
             System.out.println("Save complete.");
-        } catch (IOException e) {
-            e.printStackTrace();
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
         }
 
     }
@@ -127,12 +117,17 @@ public class UIController implements Initializable {
         String name;
         int sellin;
         int qual;
-        Date date;
+        Date date = null;
 
         name = Name.getText();
         sellin = Integer.parseInt(SellIn.getText());
         qual = Integer.parseInt(Quality.getText());
-        date = java.sql.Date.valueOf(Date.getValue());
+
+        //conversion local date to date
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        LocalDate localDate = Date.getValue();
+        date = java.util.Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
+
         Item newItem = new Item(name, sellin, qual, date);
 
         Item[] items = new Item[this.inventory.getItems().length+1];

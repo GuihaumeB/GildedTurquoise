@@ -7,7 +7,7 @@ public class Item {
     private String name;
     private int sellIn;
     private int quality;
-    private Date buyDate;
+    private Date date;
     private Date sellDate;
     private int buyPrice;
     private int sellPrice;
@@ -17,27 +17,27 @@ public class Item {
         name = "tmp";
         sellIn = 0;
         quality = 0;
-        buyDate = null;
+        date = null;
         sellDate = null;
         buyPrice = 0;
         sellPrice = 0;
     }
-    public Item(String name, int sellIn, int quality, Date BuyDate) {
+    public Item(String name, int sellIn, int quality, Date date) {
         super();
         this.name = name;
         this.sellIn = sellIn;
         this.quality = quality;
-        this.buyDate = BuyDate;
+        this.date = date;
         sellDate = null;
         buyPrice = 0;
         sellPrice = 0;
     }
-    public Item(String name, int sellIn, int quality, Date BuyDate, Date sellDate,int BuyPrice, int sellPrice) {
+    public Item(String name, int sellIn, int quality, Date date, Date sellDate, int BuyPrice, int sellPrice) {
         super();
         this.name = name;
         this.sellIn = sellIn;
         this.quality = quality;
-        this.buyDate = BuyDate;
+        this.date = date;
         this.sellDate = sellDate;
         this.buyPrice = BuyPrice;
         this.sellPrice = sellPrice;
@@ -68,7 +68,7 @@ public class Item {
     }
 
     public Date getDate() {
-        return buyDate;
+        return date;
     }
 
     public Date getSellDate() {
@@ -84,7 +84,7 @@ public class Item {
     }
 
     public void setDate(Date date) {
-        this.buyDate = date;
+        this.date = date;
     }
 
     @Override
@@ -93,7 +93,7 @@ public class Item {
                 "name='" + name + '\'' +
                 ", sellIn=" + sellIn +
                 ", quality=" + quality +
-                ", buyDate=" + buyDate.toString() +
+                ", date=" + date.toString() +
                 ", sellDate=" + sellDate.toString() +
                 ", buyPrice=" + buyPrice +
                 ", sellPrice=" + sellPrice +
