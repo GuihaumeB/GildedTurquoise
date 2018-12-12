@@ -25,11 +25,16 @@ import java.io.*;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class UIController implements Initializable {
     private Inventory inventory = jsonDeserialize();
+
+    private List<String> buyList = new ArrayList<String>();
+    private List<Integer> buyHistory = new ArrayList<Integer>();
 
     @FXML
     private TableView<Item> tableView1;
@@ -151,6 +156,8 @@ public class UIController implements Initializable {
         tableView1.getItems().setAll(inventory.getItems());
         tableView1.getItems();
         tableView1.refresh();
+
+        buyList.add(name);
     }
 
     private int dateCounter(Item[] items){
@@ -168,8 +175,11 @@ public class UIController implements Initializable {
     }
 
     public void SellInBarChart(ActionEvent actionEvent) {
+        buyHistory.add(buyList.size());
+
         Stage stage = new Stage();
         Stage stage1 = new Stage();
+        Stage stage3 = new Stage();
 
         Scene scene = new Scene(new Group());
         stage.setWidth(500);
@@ -183,21 +193,31 @@ public class UIController implements Initializable {
         final CategoryAxis xAxis1 = new CategoryAxis();
         final NumberAxis yAxis1 = new NumberAxis();
 
+        final CategoryAxis xAxis2 = new CategoryAxis();
+        final NumberAxis yAxis2 = new NumberAxis();
+
         final BarChart<String, Number> bc =
                 new BarChart<>(xAxis, yAxis);
 
         final BarChart<String, Number> bc1 =
                 new BarChart<>(xAxis1, yAxis1);
 
+        final BarChart<String, Number> bc2 = new BarChart<>(xAxis2, yAxis2);
+
         bc.setTitle("Historical SellIn");
 
         bc1.setTitle("Historical Date");
+
+        bc2.setTitle("Buy History");
 
         xAxis.setLabel("SellIn");
         yAxis.setLabel("Number of items");
 
         xAxis1.setLabel("Date");
         yAxis1.setLabel("Number of items");
+
+        xAxis2.setLabel("Date");
+        yAxis2.setLabel("Number of items bought");
 
         Item[] it = inventory.getItems();
 
@@ -212,18 +232,27 @@ public class UIController implements Initializable {
 
         for (Item item : it) {
             int occurences = dateCounter(it);
-            System.out.println(occurences);
             series2.getData().add(new XYChart.Data(item.getDate().toString(), occurences));
+        }
+
+        XYChart.Series series3 = new XYChart.Series();
+        series3.setName("Buy History");
+        for (int i : buyHistory) {
+            series3.getData().add(new XYChart.Data(new java.util.Date().toString(),i));
         }
 
         Scene scene2 = new Scene(bc, 800, 600);
         Scene scene3 = new Scene(bc1,800,600);
+        Scene scene4 = new Scene(bc2, 800,600);
         bc.getData().addAll(series1);
         bc1.getData().addAll(series2);
+        bc2.getData().addAll(series3);
         stage.setScene(scene2);
         stage1.setScene(scene3);
+        stage3.setScene(scene4);
         stage.show();
         stage1.show();
+        stage3.show();
     }
 
     private int KeyWordCounter(String keyword)
