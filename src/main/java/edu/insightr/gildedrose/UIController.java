@@ -20,7 +20,6 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-
 import java.io.*;
 import java.net.URL;
 import java.time.LocalDate;
@@ -32,9 +31,9 @@ import java.util.ResourceBundle;
 
 public class UIController implements Initializable {
     private Inventory inventory = jsonDeserialize("src/main/ressources/inventory.json");
-    Inventory ListBuy = jsonDeserialize("src/main/ressources/StockBuy.json");
+    private Inventory ListBuy = jsonDeserialize("src/main/ressources/StockBuy.json");
 
-    private List<Integer> buyHistory = new ArrayList<Integer>();
+    private List<Integer> buyHistory = new ArrayList<>();
 
     @FXML
     private TableView<Item> tableView1;
@@ -58,8 +57,6 @@ public class UIController implements Initializable {
     private DatePicker Date;
     @FXML
     private TextField Price;
-
-
 
     @FXML
     private Inventory jsonDeserialize(String file)
@@ -104,9 +101,9 @@ public class UIController implements Initializable {
         {
             System.out.println(e);
         }
-
     }
-    public void jsonSerialize2(String file){
+
+    private void jsonSerialize2(String file){
         Item[] it = ListBuy.getItems();
         ItemList items = new ItemList();
         items.setItems(it);
@@ -124,7 +121,6 @@ public class UIController implements Initializable {
         {
             System.out.println(e);
         }
-
     }
 
     @Override
@@ -157,7 +153,7 @@ public class UIController implements Initializable {
         qual = Integer.parseInt(Quality.getText());
         price = Integer.parseInt(Price.getText());
 
-        //conversion local date to date
+        //converting local date to java.util.date
         ZoneId defaultZoneId = ZoneId.systemDefault();
         LocalDate localDate = Date.getValue();
         date = java.util.Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
@@ -196,14 +192,12 @@ public class UIController implements Initializable {
     private int dateCounter(Item[] items){
         int occurences = 0;
         for (int i = 0; i < items.length; i++){
-
             for (int j = 0; j < i; j++){
                 if(items[i].getDate().compareTo(items[j].getDate()) == 0){
                     occurences++;
                 }
             }
         }
-
         return occurences;
     }
 
