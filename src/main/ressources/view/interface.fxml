@@ -29,12 +29,13 @@
     <Button text="Display inventory" onAction="#displayInventory" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
     <Button text="Display Barcharts" onAction="#SellInBarChart" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
     <Button text="Save inventory" onAction="#jsonSerialize" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
-    <HBox spacing="10" GridPane.columnIndex = "0" GridPane.RowIndex = "4">
-        <TextField fx:id="Name" prefWidth="150"/>
-        <TextField fx:id="SellIn" prefWidth="50"/>
-        <TextField fx:id="Quality" prefWidth="50"/>
-        <DatePicker fx:id="Date" prefWidth="50"/>
-        <TextField fx:id="Price" prefWidth="50"/>
+    <Label text="Add item to stock:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+    <HBox spacing="10" GridPane.columnIndex = "0" GridPane.RowIndex = "5">
+        <TextField fx:id="Name" prefWidth="150" promptText="Name"/>
+        <TextField fx:id="SellIn" prefWidth="50" promptText="SellIn"/>
+        <TextField fx:id="Quality" prefWidth="50" promptText="Quality"/>
+        <DatePicker fx:id="Date" prefWidth="150" promptText="Select a date"/>
+        <TextField fx:id="Price" prefWidth="50" promptText="Price"/>
         <Button text="Add" onAction="#add"/>
     </HBox>
 </GridPane>
