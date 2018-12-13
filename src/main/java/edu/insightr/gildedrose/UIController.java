@@ -31,7 +31,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class UIController implements Initializable {
-    private Inventory inventory = jsonDeserialize();
+    private Inventory inventory = jsonDeserialize("src/main/ressources/inventory.json");
+
 
     private List<String> buyList = new ArrayList<String>();
     private List<Integer> buyHistory = new ArrayList<Integer>();
@@ -59,15 +60,17 @@ public class UIController implements Initializable {
     @FXML
     private TextField Price;
 
+    ItemList StockBuy = new ItemList();
+
     @FXML
-    private Inventory jsonDeserialize()
+    private Inventory jsonDeserialize(String file)
     {
         Inventory inv = new Inventory();
         String jsonContent = "";
 
         try
         {
-            BufferedReader br = new BufferedReader(new FileReader("src/main/ressources/inventory.json"));
+            BufferedReader br = new BufferedReader(new FileReader(file));
             String st;
             while ((st = br.readLine())!= null) {
                 jsonContent += st;
