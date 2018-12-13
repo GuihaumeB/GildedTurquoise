@@ -32,6 +32,8 @@ import java.util.ResourceBundle;
 
 public class UIController implements Initializable {
     private Inventory inventory = jsonDeserialize("src/main/ressources/inventory.json");
+    Inventory ListBuy = null;
+
 
 
     private List<String> buyList = new ArrayList<String>();
@@ -60,7 +62,7 @@ public class UIController implements Initializable {
     @FXML
     private TextField Price;
 
-    ItemList StockBuy = new ItemList();
+
 
     @FXML
     private Inventory jsonDeserialize(String file)
@@ -88,13 +90,33 @@ public class UIController implements Initializable {
     }
 
     public void jsonSerialize(ActionEvent event){
+        Item[] it = ListBuy.getItems();
+        ItemList items = new ItemList();
+        items.setItems(it);
+
+        try
+        {
+            BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/ressources/StockBuy.json"));
+            String st;
+            st = new Gson().toJson(items, ItemList.class);
+            bw.write(st);
+            bw.close();
+            System.out.println("Save complete.");
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+
+    }
+    public void jsonSerialize2(ActionEvent event){
         Item[] it = inventory.getItems();
         ItemList items = new ItemList();
         items.setItems(it);
 
         try
         {
-            BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/ressources/inventory.json"));
+            BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/ressources/StockBuy.json"));
             String st;
             st = new Gson().toJson(items, ItemList.class);
             bw.write(st);
@@ -132,6 +154,7 @@ public class UIController implements Initializable {
         int qual;
         Date date;
         int price;
+        ListBuy = jsonDeserialize("src/main/ressources/StockBuy.json");
 
         name = Name.getText();
         sellin = Integer.parseInt(SellIn.getText());
@@ -155,6 +178,23 @@ public class UIController implements Initializable {
         items[this.inventory.getItems().length] = newItem;
 
         inventory.setItems(items);
+
+    //Area to create a new inventory StockBuy, fill it, and sereliaze it
+        Item[] buyListitems = new Item[ListBuy.getItems().length+1];
+
+        for( int i = 0; i < ListBuy.getItems().length; i++)
+        {
+            buyListitems[i] = ListBuy.getItems()[i];
+        }
+
+        buyListitems[ListBuy.getItems().length] = newItem;
+
+        ListBuy.setItems(buyListitems);
+        jsonSerialize(event);
+
+        //End of the area
+
+
 
         tableView1.getItems().setAll(inventory.getItems());
         tableView1.getItems();
