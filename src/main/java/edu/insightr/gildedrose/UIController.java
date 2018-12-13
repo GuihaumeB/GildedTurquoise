@@ -32,11 +32,8 @@ import java.util.ResourceBundle;
 
 public class UIController implements Initializable {
     private Inventory inventory = jsonDeserialize("src/main/ressources/inventory.json");
-    Inventory ListBuy = null;
+    Inventory ListBuy = jsonDeserialize("src/main/ressources/StockBuy.json");
 
-
-
-    private List<String> buyList = new ArrayList<String>();
     private List<Integer> buyHistory = new ArrayList<Integer>();
 
     @FXML
@@ -96,7 +93,7 @@ public class UIController implements Initializable {
 
         try
         {
-            BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/ressources/StockBuy.json"));
+            BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/ressources/inventory.json"));
             String st;
             st = new Gson().toJson(items, ItemList.class);
             bw.write(st);
@@ -109,14 +106,14 @@ public class UIController implements Initializable {
         }
 
     }
-    public void jsonSerialize2(ActionEvent event){
-        Item[] it = inventory.getItems();
+    public void jsonSerialize2(String file){
+        Item[] it = ListBuy.getItems();
         ItemList items = new ItemList();
         items.setItems(it);
 
         try
         {
-            BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/ressources/StockBuy.json"));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
             String st;
             st = new Gson().toJson(items, ItemList.class);
             bw.write(st);
@@ -154,7 +151,6 @@ public class UIController implements Initializable {
         int qual;
         Date date;
         int price;
-        ListBuy = jsonDeserialize("src/main/ressources/StockBuy.json");
 
         name = Name.getText();
         sellin = Integer.parseInt(SellIn.getText());
@@ -179,7 +175,7 @@ public class UIController implements Initializable {
 
         inventory.setItems(items);
 
-    //Area to create a new inventory StockBuy, fill it, and sereliaze it
+        //Area to create a new inventory StockBuy, fill it and serialize it
         Item[] buyListitems = new Item[ListBuy.getItems().length+1];
 
         for( int i = 0; i < ListBuy.getItems().length; i++)
@@ -190,17 +186,11 @@ public class UIController implements Initializable {
         buyListitems[ListBuy.getItems().length] = newItem;
 
         ListBuy.setItems(buyListitems);
-        jsonSerialize(event);
-
-        //End of the area
-
-
+        jsonSerialize2("src/main/ressources/StockBuy.json");
 
         tableView1.getItems().setAll(inventory.getItems());
         tableView1.getItems();
         tableView1.refresh();
-
-        buyList.add(name);
     }
 
     private int dateCounter(Item[] items){
@@ -217,8 +207,20 @@ public class UIController implements Initializable {
         return occurences;
     }
 
+    private void BuyDateCounter() {
+        int cpt = 0;
+        for(int i = 0; i < ListBuy.getItems().length; i++){
+            for (int j = 0; j < ListBuy.getItems().length; j++){
+                if (ListBuy.getItems()[j].getDate() == ListBuy.getItems()[i].getDate()){
+                    cpt++;
+                }
+            }
+            buyHistory.add(cpt);
+        }
+    }
+
     public void SellInBarChart(ActionEvent actionEvent) {
-        buyHistory.add(buyList.size());
+        BuyDateCounter();
 
         Stage stage = new Stage();
         Stage stage1 = new Stage();
@@ -280,8 +282,8 @@ public class UIController implements Initializable {
 
         XYChart.Series series3 = new XYChart.Series();
         series3.setName("Buy History");
-        for (int i : buyHistory) {
-            series3.getData().add(new XYChart.Data(new java.util.Date().toString(),i));
+        for (int i = 0; i < buyHistory.size(); i++) {
+            series3.getData().add(new XYChart.Data(ListBuy.getItems()[i].getDate().toString(), buyHistory.get(i)));
         }
 
         Scene scene2 = new Scene(bc, 800, 600);
