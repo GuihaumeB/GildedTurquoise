@@ -38,4 +38,8 @@
         <TextField fx:id="Price" prefWidth="50" promptText="Price"/>
         <Button text="Add" onAction="#add"/>
     </HBox>
+    <HBox spacing="10" GridPane.columnIndex = "0" GridPane.RowIndex = "4">
+        <TextField fx:id="Name2" prefWidth="150" promptText="Name"/>
+        <Button text="Sell" onAction="#sell"/>
+    </HBox>
 </GridPane>

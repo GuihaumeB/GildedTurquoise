@@ -34,6 +34,8 @@ public class UIController implements Initializable {
     private Inventory ListBuy = jsonDeserialize("src/main/ressources/StockBuy.json");
 
     private List<Integer> buyHistory = new ArrayList<>();
+    private Inventory ListSell = new Inventory(new Item[0]);
+    // private Inventory ListSell = jsonDeserialize("src/main/ressources/StockSell.json");
 
     @FXML
     private TableView<Item> tableView1;
@@ -57,6 +59,8 @@ public class UIController implements Initializable {
     private DatePicker Date;
     @FXML
     private TextField Price;
+    @FXML
+    private TextField Name2;
 
     @FXML
     private Inventory jsonDeserialize(String file)
@@ -84,7 +88,7 @@ public class UIController implements Initializable {
     }
 
     public void jsonSerialize(ActionEvent event){
-        Item[] it = ListBuy.getItems();
+        Item[] it = inventory.getItems();
         ItemList items = new ItemList();
         items.setItems(it);
 
@@ -123,6 +127,25 @@ public class UIController implements Initializable {
         }
     }
 
+    private void jsonSerialize3(String file){
+        Item[] it = ListSell.getItems();
+        ItemList items = new ItemList();
+        items.setItems(it);
+
+        try
+        {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+            String st;
+            st = new Gson().toJson(items, ItemList.class);
+            bw.write(st);
+            bw.close();
+            System.out.println("Save complete.");
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+    }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         itemName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -337,5 +360,33 @@ public class UIController implements Initializable {
         stage2.setScene(scene2);
 
         stage2.show();
+    }
+
+    public void sell(ActionEvent actionEvent) {
+        String Name = Name2.getText();
+        Item[] It = inventory.getItems();
+        Item[] Init = new Item[ListSell.getItems().length + 1];
+        System.out.println(Init.length);
+        for(int i = 0; i<ListSell.getItems().length; i++){
+            Init[i] = ListSell.getItems()[i];
+        }
+        Item[] It2 = new Item[inventory.getItems().length - 1];
+        for (Item i: It){
+            if(i.getName().matches(Name)){
+                Init[Init.length - 1] = i;
+                boolean marker = false;
+                for(int j = 0; j<It.length - 1; j++){
+                    if(It[j].getName().matches(Name) || marker){
+                        It2[j] = It[j+1];
+                        marker = true;
+                    }
+                    else
+                        It2[j] = It[j];
+                }
+                inventory.setItems(It2);
+            }
+        }
+        ListSell.setItems(Init);
+        jsonSerialize3("src/main/ressources/StockSell.json");
     }
 }
