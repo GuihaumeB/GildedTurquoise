@@ -92,60 +92,30 @@ public class UIController implements Initializable {
         ItemList items = new ItemList();
         items.setItems(it);
 
-        try
-        {
-            BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/ressources/inventory.json"));
-            String st;
-            st = new Gson().toJson(items, ItemList.class);
-            bw.write(st);
-            bw.close();
-            System.out.println("Save complete.");
-        }
-        catch(Exception e)
-        {
-            System.out.println(e);
-        }
+        jsonWriter("src/main/ressources/inventory.json", items);
     }
 
-    private void jsonSerialize2(String file){
-        Item[] it = ListBuy.getItems();
+    private void jsonSerialize2(String file, Inventory inv){
+        Item[] it = inv.getItems();
         ItemList items = new ItemList();
         items.setItems(it);
 
-        try
-        {
+        jsonWriter(file, items);
+    }
+
+    private void jsonWriter(String file, ItemList items) {
+        try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
             String st;
             st = new Gson().toJson(items, ItemList.class);
             bw.write(st);
             bw.close();
             System.out.println("Save complete.");
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             System.out.println(e);
         }
     }
 
-    private void jsonSerialize3(String file){
-        Item[] it = ListSell.getItems();
-        ItemList items = new ItemList();
-        items.setItems(it);
-
-        try
-        {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-            String st;
-            st = new Gson().toJson(items, ItemList.class);
-            bw.write(st);
-            bw.close();
-            System.out.println("Save complete.");
-        }
-        catch(Exception e)
-        {
-            System.out.println(e);
-        }
-    }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         itemName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -205,7 +175,7 @@ public class UIController implements Initializable {
         buyListitems[ListBuy.getItems().length] = newItem;
 
         ListBuy.setItems(buyListitems);
-        jsonSerialize2("src/main/ressources/StockBuy.json");
+        jsonSerialize2("src/main/ressources/StockBuy.json", ListBuy);
 
         tableView1.getItems().setAll(inventory.getItems());
         tableView1.getItems();
@@ -246,7 +216,7 @@ public class UIController implements Initializable {
         Scene scene = new Scene(new Group());
         stage.setWidth(500);
         stage.setHeight(500);
-        scene.getStylesheets().add(getClass().getResource("/view/styles.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/ressources/view/styles.css").toExternalForm());
         stage.setTitle("Gilded Rose UI");
 
         final CategoryAxis xAxis = new CategoryAxis();
@@ -387,6 +357,6 @@ public class UIController implements Initializable {
             }
         }
         ListSell.setItems(Init);
-        jsonSerialize3("src/main/ressources/StockSell.json");
+        jsonSerialize2("src/main/ressources/StockSell.json", ListSell);
     }
 }

@@ -36,7 +36,7 @@
         <TextField fx:id="Quality" prefWidth="50" promptText="Quality"/>
         <DatePicker fx:id="Date" prefWidth="150" promptText="Select a date"/>
         <TextField fx:id="Price" prefWidth="50" promptText="Price"/>
-        <Button text="Add" onAction="#add"/>
+        <Button text="Buy" onAction="#add"/>
     </HBox>
     <HBox spacing="10" GridPane.columnIndex = "0" GridPane.RowIndex = "4">
         <TextField fx:id="Name2" prefWidth="150" promptText="Name"/>
