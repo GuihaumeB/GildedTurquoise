@@ -8,12 +8,14 @@ import javafx.stage.Stage;
 
 public class App extends Application {
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage){
         try{
             Parent root = FXMLLoader.load(getClass().getResource("/view/interface.fxml"));
-            Scene scene = new Scene(root, 500, 500);
+
+            Scene scene = new Scene(root, 900, 600);
             scene.getStylesheets().add(getClass().getResource("/view/styles.css").toExternalForm());
             primaryStage.setTitle("Gilded Rose UI");
+
             primaryStage.setScene(scene);
             primaryStage.show();
         }catch(Exception e){

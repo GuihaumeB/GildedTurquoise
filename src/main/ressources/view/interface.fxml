@@ -10,23 +10,36 @@
 
 
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.DatePicker?>
 <GridPane fx:controller="edu.insightr.gildedrose.UIController"
           stylesheets = "styles.css"
           xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
     <Label GridPane.rowIndex="0" GridPane.columnIndex="0" text="Inventory:"/>
-    <TableView fx:id="tableView1" prefWidth="415" GridPane.columnIndex="0" GridPane.rowIndex="1">
+    <TableView fx:id="tableView1" prefWidth="750" GridPane.columnIndex="0" GridPane.rowIndex="1">
         <columns>
             <TableColumn fx:id="itemName" text = "Item Name"/>
             <TableColumn fx:id="itemSellIn" text = "Item SellIn"/>
             <TableColumn fx:id="itemQuality" text = "Item Quality"/>
+            <TableColumn fx:id="itemDate" text = "Item Date"/>
+            <TableColumn fx:id="itemPrice" text = "Item Price"/>
         </columns>
     </TableView>
 
     <Button text="Update" onAction="#updateInventory" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-    <HBox spacing="10" GridPane.columnIndex = "0" GridPane.RowIndex = "3">
-        <TextField fx:id="Name" prefWidth="150"/>
-        <TextField fx:id="SellIn" prefWidth="50"/>
-        <TextField fx:id="Quality" prefWidth="50"/>
-        <Button text="Add" onAction="#add"/>
+    <Button text="Display inventory" onAction="#displayInventory" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+    <Button text="Display Barcharts" onAction="#SellInBarChart" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+    <Button text="Save inventory" onAction="#jsonSerialize" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+    <Label text="Add item to stock:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+    <HBox spacing="10" GridPane.columnIndex = "0" GridPane.RowIndex = "5">
+        <TextField fx:id="Name" prefWidth="150" promptText="Name"/>
+        <TextField fx:id="SellIn" prefWidth="50" promptText="SellIn"/>
+        <TextField fx:id="Quality" prefWidth="50" promptText="Quality"/>
+        <DatePicker fx:id="Date" prefWidth="150" promptText="Select a date"/>
+        <TextField fx:id="Price" prefWidth="50" promptText="Price"/>
+        <Button text="Buy" onAction="#add"/>
+    </HBox>
+    <HBox spacing="10" GridPane.columnIndex = "0" GridPane.RowIndex = "4">
+        <TextField fx:id="Name2" prefWidth="150" promptText="Name"/>
+        <Button text="Sell" onAction="#sell"/>
     </HBox>
 </GridPane>
